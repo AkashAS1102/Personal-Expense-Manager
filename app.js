@@ -362,19 +362,19 @@ async function initializeDashboard() {
     }
 
     if (sheetResult.state === "unreachable") {
-      setStatus("Could not read the spreadsheet bridge response. Showing locally saved expenses only.", true);
-      setSheetHelp("Make sure you started `node server.js` from this project folder before opening the app.", true);
+      setStatus("Could not read the spreadsheet service. Showing locally saved expenses only.", true);
+      setSheetHelp("Check that the deployed `/api/expenses` route is live and that the Apps Script web app is still accessible.", true);
       return;
     }
 
     setStatus(`Connected to Google Sheets. Showing ${sheetExpenses.length} sheet rows and ${localExpenses.length} local entries.`);
-    setSheetHelp("Published sheet data is live. New entries from the modal are stored locally in this browser until you wire a write-back flow.");
+    setSheetHelp("Spreadsheet data is live. New entries from the modal are stored locally in this browser until you wire a write-back flow.");
   } catch (error) {
     console.error(error);
     const localExpenses = readLocalExpenses();
     renderDashboard(localExpenses);
-    setStatus("Could not reach the local spreadsheet bridge. Showing locally saved expenses only.", true);
-    setSheetHelp("Open the app through `node server.js` so the local API can fetch spreadsheet data for the browser.", true);
+    setStatus("Could not reach the spreadsheet API route. Showing locally saved expenses only.", true);
+    setSheetHelp("The deployment needs a working `/api/expenses` endpoint that proxies your Apps Script feed.", true);
   }
 }
 
