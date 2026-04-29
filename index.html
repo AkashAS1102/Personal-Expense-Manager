@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Expense Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="ambient ambient-left"></div>
+  <div class="ambient ambient-right"></div>
+
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand-row">
+        <div class="brand-mark">EC</div>
+        <div>
+          <p class="eyebrow">Expense Control</p>
+          <h1>Personal Expense Manager</h1>
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <div class="sync-indicator">
+          <span class="status-dot"></span>
+          <span id="sheetStatus">Loading spreadsheet data...</span>
+        </div>
+        <button id="openModalBtn" class="primary-btn" type="button">Add New Expense</button>
+      </div>
+    </header>
+
+    <main class="dashboard">
+      <section class="hero-panel">
+        <div class="hero-copy">
+          <p class="section-kicker">Finance Command Center</p>
+          <h2>Track every rupee with a cleaner, bolder operating view.</h2>
+          <p class="section-copy">The dashboard reads from your spreadsheet service, groups totals by category, and turns routine expense tracking into a faster review flow.</p>
+          <p id="sheetHelp" class="sheet-help">Live sync is connected to your spreadsheet service.</p>
+        </div>
+
+        <div class="hero-stats">
+          <article class="metric-card metric-card-primary">
+            <span class="card-label">Total Spending</span>
+            <strong id="totalSpend">Rs 0.00</strong>
+            <p id="recordCount">0 transactions loaded</p>
+          </article>
+
+          <article class="metric-card">
+            <span class="card-label">Top Category</span>
+            <strong id="topCategory">-</strong>
+            <p id="topCategoryAmount">No expenses yet</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="content-grid">
+        <article class="panel chart-panel">
+          <div class="panel-header panel-header-tight">
+            <div>
+              <p class="section-kicker">Spend Shape</p>
+              <h3>Category distribution</h3>
+            </div>
+          </div>
+
+          <div class="chart-layout">
+            <div class="chart-wrap">
+              <canvas id="expenseChart" aria-label="Expenses by category donut chart"></canvas>
+            </div>
+            <div id="chartLegend" class="legend-grid"></div>
+          </div>
+        </article>
+
+        <article class="panel totals-panel">
+          <div class="panel-header panel-header-tight">
+            <div>
+              <p class="section-kicker">Category Ledger</p>
+              <h3>Live totals</h3>
+            </div>
+          </div>
+          <div id="categoryTotals" class="totals-list"></div>
+        </article>
+      </section>
+
+      <section class="panel ledger-panel">
+        <div class="panel-header">
+          <div>
+            <p class="section-kicker">Recent Activity</p>
+            <h3>Expense ledger</h3>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Category</th>
+                <th>Description</th>
+                <th class="amount-col">Amount</th>
+              </tr>
+            </thead>
+            <tbody id="expenseTableBody">
+              <tr>
+                <td colspan="4" class="placeholder-row">Waiting for expense data...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="expenseModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal="true"></div>
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <div>
+          <p class="section-kicker">New Entry</p>
+          <h3 id="modalTitle">Add Expense</h3>
+        </div>
+        <button id="closeModalBtn" class="icon-btn" type="button" aria-label="Close modal">x</button>
+      </div>
+
+      <form id="expenseForm" class="expense-form">
+        <label>
+          <span>Date</span>
+          <input type="date" id="expenseDate" required>
+        </label>
+        <label>
+          <span>Amount</span>
+          <input type="number" id="expenseAmount" min="0" step="0.01" placeholder="0.00" required>
+        </label>
+        <label>
+          <span>Category</span>
+          <input type="text" id="expenseCategory" placeholder="Food, Travel, Bills..." required>
+        </label>
+        <label>
+          <span>Description</span>
+          <textarea id="expenseDescription" rows="3" placeholder="Short note about this expense" required></textarea>
+        </label>
+        <div class="form-actions">
+          <button type="button" class="secondary-btn" data-close-modal="true">Cancel</button>
+          <button type="submit" class="primary-btn">Save Expense</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
